@@ -1,5 +1,6 @@
 package com.rafaelscouto.app.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,5 +28,10 @@ public class PostService {
 	
 	public List<Post> findByTitleUQ(String text) {
 		return repo.findByTitleContainingIgnoreCase(text);
+	}
+	
+	public List<Post> findComplete(String text, Date iDate, Date fDate) {
+		fDate = new Date(fDate.getTime() + 24 * 60 * 60 * 1000);
+		return repo.findComplete(text, iDate, fDate);
 	}
 }

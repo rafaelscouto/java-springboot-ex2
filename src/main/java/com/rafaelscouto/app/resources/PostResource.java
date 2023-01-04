@@ -1,5 +1,6 @@
 package com.rafaelscouto.app.resources;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,18 @@ public class PostResource {
 	public ResponseEntity<List<Post>> findByTitleUQ(@RequestParam(value="text", defaultValue="") String text) {
 		text = URL.decodeParam(text);
 		List<Post> list = service.findByTitle(text);
+		return ResponseEntity.ok().body(list);
+	}
+	
+	@GetMapping(value = "/findcomplete")
+	public ResponseEntity<List<Post>> findComplete(
+			@RequestParam(value="text", defaultValue="") String text,
+			@RequestParam(value="iDate", defaultValue="") String iDate,
+			@RequestParam(value="fDate", defaultValue="") String fDate) {
+		text = URL.decodeParam(text);
+		Date i = URL.convertDate(iDate, new Date(0L));
+		Date f = URL.convertDate(fDate, new Date());
+		List<Post> list = service.findComplete(text, i, f);
 		return ResponseEntity.ok().body(list);
 	}
 }
